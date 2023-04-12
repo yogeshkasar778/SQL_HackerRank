@@ -70,7 +70,7 @@ The **STATION** table is described as follows:
   
        SELECT  COUNT(CITY) - COUNT(DISTINCT(CITY)) FROM STATION;  
        
-#### Q10.Query the two cities in STATION with the shortest and longest CITY names, as well as their respective lengths (i.e.: number of characters in the name). If there is more than one smallest or largest city, choose the one that comes first when ordered alphabetically.
+#### Q11.Query the two cities in STATION with the shortest and longest CITY names, as well as their respective lengths (i.e.: number of characters in the name). If there is more than one smallest or largest city, choose the one that comes first when ordered alphabetically.
 
    My Solution (MySQL):
   
@@ -78,12 +78,80 @@ The **STATION** table is described as follows:
        OR LENGTH(CITY) = (SELECT MIN(LENGTH(CITY)) FROM STATION)
        ORDER BY LENGTH(CITY) DESC, CITY ASC LIMIT 2;    
      
-#### Q10.Find the difference between the total number of CITY entries in the table and the number of distinct CITY entries in the table.
+#### Q12.Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result cannot contain duplicates.
 
    My Solution (MySQL):
   
-       SELECT  COUNT(CITY) - COUNT(DISTINCT(CITY)) FROM STATION;     
+       SELECT  DISTINCT CITY FROM STATION
+       WHERE CITY REGEXP '^[A,E,I,O,U]';     
      
+#### Q13.Query the list of CITY names ending with vowels (a, e, i, o, u) from STATION. Your result cannot contain duplicates.
+
+   My Solution (MySQL):
+  
+       SELECT  DISTINCT CITY FROM STATION
+       WHERE CITY REGEXP '[A,E,I,O,U]$';          
      
-     
-     
+#### Q14.Query the list of CITY names from STATION which have vowels (i.e., a, e, i, o, and u) as both their first and last characters. Your result cannot contain duplicates.
+
+   My Solution (MySQL):
+  
+       SELECT  DISTINCT CITY FROM STATION
+       WHERE CITY REGEXP '^[A,E,I,O,U].*[A,E,I,O,U]$';      
+
+#### Q15.Query the list of CITY names from STATION that do not start with vowels. Your result cannot contain duplicates.
+
+   My Solution (MySQL):
+  
+       SELECT  DISTINCT CITY FROM STATION
+       WHERE CITY NOT REGEXP '^[A,E,I,O,U]';  
+
+#### Q16.Query the list of CITY names from STATION that either do not start with vowels or do not end with vowels. Your result cannot contain duplicates.
+
+   My Solution (MySQL):
+  
+       SELECT  DISTINCT CITY FROM STATION
+       WHERE CITY NOT REGEXP '^[A,E,I,O,U].*[A,E,I,O,U]$'; 
+
+#### Q17.Query the list of CITY names from STATION that either do not start with vowels and do not end with vowels. Your result cannot contain duplicates.
+
+   My Solution (MySQL):
+  
+       SELECT  DISTINCT CITY FROM STATION
+       WHERE CITY  REGEXP '^[^A,E,I,O,U]' AND REGEXP '[^A,E,I,O,U]$';
+      
+#### Q18.Query the Name of any student in STUDENTS who scored higher than  Marks. Order your output by the last three characters of each name. If two or more students both have names ending in the same last three characters (i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+
+The STUDENTS table is described as follows:
+
+![1443815209-cf4b260993-2](https://user-images.githubusercontent.com/118357991/231522914-2e95d980-50eb-4a0b-876f-8720394349a4.png)
+
+   My Solution (MySQL):
+  
+       SELECT  NAME FROM STUDENTS
+       WHERE MARKS > 75
+       ORDER BY RIGHT(NAME,3), ID;
+       
+#### Q19.Write a query that prints a list of employee names (i.e.: the name attribute) from the Employee table in alphabetical order.
+
+The Employee table containing employee data for a company is described as follows:
+
+![1458558202-9a8721e44b-ScreenShot2016-03-21at4 32 59PM](https://user-images.githubusercontent.com/118357991/231523874-a418d84f-2747-4982-91d5-6cd69f98680e.png)
+
+   My Solution (MySQL):
+  
+       SELECT  name FROM Employee
+       ORDER BY name ASC;
+
+#### Q20.Write a query that prints a list of employee names (i.e.: the name attribute) for employees in Employee having a salary greater than $2000 per month who have been employees for less than 10 months. Sort your result by ascending employee_id.
+
+   My Solution (MySQL):
+        SELECT name FROM Employee
+        WHERE salary > 2000 AND months < 10
+        ORDER BY employee_id ASC;
+   
+
+
+
+
+
