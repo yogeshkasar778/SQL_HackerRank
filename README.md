@@ -246,7 +246,7 @@ Occupation will only contain one of the following values: Doctor, Professor, Sin
        GROUP BY R1;
 
 
-#### Q23.Generate the following two result sets: 
+#### Q24.Generate the following two result sets: 
 1.Query an alphabetically ordered list of all names in OCCUPATIONS, immediately followed by the first letter of each profession as a parenthetical (i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
 
 2.Query the number of ocurrences of each occupation in OCCUPATIONS. Sort the occurrences in ascending order, and output them in the following format:
