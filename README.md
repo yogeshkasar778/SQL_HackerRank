@@ -150,9 +150,99 @@ The Employee table containing employee data for a company is described as follow
          SELECT name FROM Employee
          WHERE salary > 2000 AND months < 10
          ORDER BY employee_id ASC;
-   
+
+### Advanced SELECT - 
+
+#### Q21.Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
+
+     - Equilateral: It's a triangle with 3 sides of equal length.
+     - Isosceles: It's a triangle with 2 sides of equal length.
+     - Scalene: It's a triangle with 3 sides of differing lengths.
+     - Not A Triangle: The given values of A, B, and C don't form a triangle.
+
+The TRIANGLES table is described as follows:
+
+![1443815629-ac2a843fb7-1](https://user-images.githubusercontent.com/118357991/231813836-488eb083-2ec1-422c-9643-1e05ae1fdf26.png)
+
+Each row in the table denotes the lengths of each of a triangle's three sides.
+
+Sample Input
+
+![1443815827-cbfc1ca12b-2](https://user-images.githubusercontent.com/118357991/231813983-244a45b9-9136-4d02-80b3-decd09cce415.png)
+
+   My Solution (MySQL):
+  
+       SELECT 
+             CASE
+               WHEN A + B <= C OR A + C <= B OR B + C <= A THEN 'Not A Triangle'
+               WHEN A = B AND B = C THEN 'Equilateral'
+               WHEN A = B OR B = C OR C = A THEN 'Isosceles'
+             END AS triangle_type
+        FROM TRIANGLES;
+       
+#### Q22.Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy:
+
+![1458531031-249df3ae87-ScreenShot2016-03-21at8 59 56AM](https://user-images.githubusercontent.com/118357991/231822722-62175aa0-9fe5-4f0c-9164-cb51fdb952ca.png)
+
+Given the table schemas below, write a query to print the company_code, founder name, total number of lead managers, total number of senior managers, total number of managers, and total number of employees. Order your output by ascending company_code.
+
+Note:
+
+- The tables may contain duplicate records.
+- The company_code is string, so the sorting should not be numeric. For example, if the company_codes are C_1, C_2, and C_10, then the ascending company_codes  will be C_1, C_10, and C_2.
+
+The following tables contain company data:
+
+- Company: The company_code is the code of the company and founder is the founder of the company.
+
+![1458535049-2a207c44b3-ScreenShot2016-03-21at8 50 52AM](https://user-images.githubusercontent.com/118357991/231823215-d5f596cc-5cc2-474d-ba35-90f810865895.png)
+
+- Lead_Manager: The lead_manager_code is the code of the lead manager, and the company_code is the code of the working company.
+
+![1458535073-919107f639-ScreenShot2016-03-21at8 51 03AM](https://user-images.githubusercontent.com/118357991/231823549-b5568e45-c5df-4eeb-99f5-81366cad1cea.png)
+
+- Senior_Manager: The senior_manager_code is the code of the senior manager, the lead_manager_code is the code of its lead manager, and the company_code is the code of the working company.
+
+![1458535111-b1c48335b3-ScreenShot2016-03-21at8 51 15AM](https://user-images.githubusercontent.com/118357991/231823661-d855cb5b-45c1-4ce4-81f1-9232d18f5fb7.png)
+
+- Manager: The manager_code is the code of the manager, the senior_manager_code is the code of its senior manager, the lead_manager_code is the code of its lead manager, and the company_code is the code of the working company.
+
+![1458535122-888f4bf340-ScreenShot2016-03-21at8 51 26AM](https://user-images.githubusercontent.com/118357991/231823814-8c1996eb-50d1-4639-8d62-6a740f0d7328.png)
+
+- Employee: The employee_code is the code of the employee, the manager_code is the code of its manager, the senior_manager_code is the code of its senior manager, the lead_manager_code is the code of its lead manager, and the company_code is the code of the working company.
+
+![1458535134-878767e0d9-ScreenShot2016-03-21at8 51 52AM](https://user-images.githubusercontent.com/118357991/231823908-63f40e7f-e74d-49a9-a975-a423187ce534.png)
 
 
+   My Solution (MySQL):
+  
+       SELECT C.company_code, C.founder,
+              COUNT(DISTINCT E.lead_manager_code),
+              COUNT(DISTINCT E.senior_manager_code),
+              COUNT(DISTINCT E.manager_code),
+              COUNT(DISTINCT E.employee_code)
+       FROM Company C
+       INNER JOIN Employee E
+       ON C.company_code = E.company_code
+       GROUP BY C.company_code, C.founder
+       ORDER BY C.company_code;
 
+#### Q23.Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
+
+The OCCUPATIONS table is described as follows:
+
+Occupation will only contain one of the following values: Doctor, Professor, Singer or Actor.
+
+![1443817648-1b2b8add45-2](https://user-images.githubusercontent.com/118357991/231827790-3abd211f-50bc-4819-8aaa-af71ac0abab9.png)
+
+   My Solution (MySQL):
+  
+       WITH CTE AS(SELECT name,occupation,ROW_NUMBER() OVER (PARTITION BY Occupation ORDER BY Name) as R1 FROM OCCUPATIONS)
+       SELECT MAX(CASE WHEN Occupation  = "Doctor" THEN Name END) AS Doctor,
+              MAX(CASE WHEN Occupation  = "Professor" THEN Name END) AS Professor,
+              MAX(CASE WHEN Occupation  = "Singer" THEN Name END) AS Singer,
+              MAX(CASE WHEN Occupation  = "Actor" THEN Name END) AS Actor
+       FROM CTE
+       GROUP BY R1;
 
 
