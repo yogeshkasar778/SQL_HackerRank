@@ -62,13 +62,14 @@ The **STATION** table is described as follows:
 
    My Solution (MySQL):
   
-       SELECT DISTINCT CITY FROM STATION WHERE MOD(ID, 2) = 0;     
-     
+       SELECT DISTINCT CITY FROM STATION WHERE MOD(ID, 2) = 0;   
+       
 #### Q10.Find the difference between the total number of CITY entries in the table and the number of distinct CITY entries in the table.
 
    My Solution (MySQL):
   
        SELECT  COUNT(CITY) - COUNT(DISTINCT(CITY)) FROM STATION;  
+       
        
 #### Q11.Query the two cities in STATION with the shortest and longest CITY names, as well as their respective lengths (i.e.: number of characters in the name). If there is more than one smallest or largest city, choose the one that comes first when ordered alphabetically.
 
@@ -150,10 +151,109 @@ The Employee table containing employee data for a company is described as follow
          SELECT name FROM Employee
          WHERE salary > 2000 AND months < 10
          ORDER BY employee_id ASC;
+     
+### AGGREGATION FUNCTION -   
+
+
+#### Q21.Query a count of the number of cities in CITY having a Population larger than 1000000.
+
+COUNT() FUNCTION-
+
+The CITY table is described as follows:
+
+![1449729804-f21d187d0f-CITY (1)](https://user-images.githubusercontent.com/118357991/232111186-726f7328-aa3e-478b-81e8-67add1d5e956.jpg)
+
+   My Solution (MySQL):
+   
+         SELECT COUNT(*) FROM CITY
+         WHERE POPULATION > 1000000;
+
+#### Q22.Query the total population of all cities in CITY where District is California.
+
+SUM() FUNCTION-
+
+   My Solution (MySQL):
+   
+         SELECT SUM(POPULATION) FROM CITY
+         WHERE DISTRICT = 'California';
+         
+#### Q23. Query the average population of all cities in CITY where District is California.
+
+AVG() FUNCTION-
+
+   My Solution (MySQL):
+   
+         SELECT AVG(POPULATION) FROM CITY
+         WHERE DISTRICT = 'California';
+
+#### Q24. Query the average population for all cities in CITY, rounded down to the nearest integer.
+
+AVG() FUNCTION-
+
+   My Solution (MySQL):
+   
+         SELECT ROUND(AVG(POPULATION)) FROM CITY;
+         
+#### Q25. Query the sum of the populations for all Japanese cities in CITY. The COUNTRYCODE for Japan is JPN.
+
+   My Solution (MySQL):
+   
+         SELECT SUM(POPULATION) FROM CITY
+         WHERE COUNTRYCODE = 'JPN';
+
+#### Q26.Query the difference between the maximum and minimum populations in CITY.
+
+   My Solution (MySQL):
+   
+         SELECT MAX(POPULATION) - MIN(POPULATION) FROM CITY;
+         
+#### Q27.Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, but did not realize her keyboard's  key was broken until after completing the calculation. She wants your help finding the difference between her miscalculation (using salaries with any zeros removed), and the actual average salary.
+
+Write a query calculating the amount of error (i.e.: actual - miscalculated average monthly salaries), and round it up to the next integer.
+
+The EMPLOYEES table is described as follows:
+
+![1443817161-299cc6eb7f-2](https://user-images.githubusercontent.com/118357991/232118952-68e94c2f-8156-4569-bd94-50e0e0d92903.png)
+
+   My Solution (MySQL):
+   
+         SELECT CEIL(AVG(Salary)) - AVG(REPLACE(Salary,0,'')) 
+         FROM Employees;
+
+#### Q28.We define an employee's total earnings to be their monthly  worked, and the maximum total earnings to be the maximum total earnings for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as the total number of employees who have maximum total earnings. Then print these values as  space-separated integers.
+
+The Employee table containing employee data for a company is described as follows:
+
+![1458559098-23bf583125-ScreenShot2016-03-21at4 32 59PM](https://user-images.githubusercontent.com/118357991/232121131-4ac1e2dd-ece5-4bea-b915-a0597f5cb54e.png)
+
+   My Solution (MySQL):
+   
+         SELECT MAX(salary*months) AS max_salary, COUNT(*) AS count_max_earning 
+         FROM EMPLOYEE
+         WHERE salary*months = (SELECT max(salary*months) FROM EMPLOYEE);
+
+#### Q29.Query the following two values from the STATION table:
+
+1.The sum of all values in LAT_N rounded to a scale of  decimal places.
+2.The sum of all values in LONG_W rounded to a scale of  decimal places.
+
+The STATION table is described as follows:
+
+![1449345840-5f0a551030-Station](https://user-images.githubusercontent.com/118357991/232122786-41a42ba3-2a0c-475d-b89a-0a1307d88e72.jpg)
+
+   My Solution (MySQL):
+   
+         SELECT ROUND(SUM(LAT_N),2), ROUND(SUM(LONG_W),2) FROM STATION;
+
+
+
+
+
+
 
 ### Advanced SELECT - 
 
-#### Q21.Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
+#### Q.Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
 
      - Equilateral: It's a triangle with 3 sides of equal length.
      - Isosceles: It's a triangle with 2 sides of equal length.
@@ -180,7 +280,7 @@ Sample Input
              END AS triangle_type
         FROM TRIANGLES;
        
-#### Q22.Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy:
+#### Q.Amber's conglomerate corporation just acquired some new companies. Each of the companies follows this hierarchy:
 
 ![1458531031-249df3ae87-ScreenShot2016-03-21at8 59 56AM](https://user-images.githubusercontent.com/118357991/231822722-62175aa0-9fe5-4f0c-9164-cb51fdb952ca.png)
 
@@ -227,7 +327,7 @@ The following tables contain company data:
        GROUP BY C.company_code, C.founder
        ORDER BY C.company_code;
 
-#### Q23.Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
+#### Q.Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
 
 The OCCUPATIONS table is described as follows:
 
@@ -246,7 +346,7 @@ Occupation will only contain one of the following values: Doctor, Professor, Sin
        GROUP BY R1;
 
 
-#### Q24.Generate the following two result sets: 
+#### Q.Generate the following two result sets: 
 1.Query an alphabetically ordered list of all names in OCCUPATIONS, immediately followed by the first letter of each profession as a parenthetical (i.e.: enclosed in parentheses). For example: AnActorName(A), ADoctorName(D), AProfessorName(P), and ASingerName(S).
 
 2.Query the number of ocurrences of each occupation in OCCUPATIONS. Sort the occurrences in ascending order, and output them in the following format:
