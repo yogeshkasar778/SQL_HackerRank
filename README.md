@@ -267,7 +267,48 @@ The STATION table is described as follows:
          SELECT ROUND(LAT_N,4) FROM STATION
          WHERE LAT_N = (SELECT MAX(LAT_N) FROM STATION WHERE LAT_N < 137.2345;
 
+#### Q33.Query the smallest Northern Latitude (LAT_N) from STATION that is greater than 38.7780. Round your answer to 4 decimal places.
 
+   My Solution (MySQL):
+   
+         SELECT ROUND(LAT_N,4) FROM STATION
+         WHERE LAT_N = (SELECT MIN(LAT_N) FROM STATION WHERE LAT_N < 137.2345);
+
+#### Q34.Query the Western Longitude (LONG_W)where the smallest Northern Latitude (LAT_N) in STATION is greater than 38.7780. Round your answer to 4 decimal places
+
+   My Solution (MySQL):
+   
+         SELECT ROUND(LONG_W,4) FROM STATION
+         WHERE LAT_N = (SELECT MIN(LAT_N) FROM STATION WHERE LAT_N > 38.7780);
+
+#### Q35.Consider P1(a,b) and P2(c,d) to be two points on a 2D plane.
+
+- a happens to equal the minimum value in Northern Latitude (LAT_N in STATION).
+- b happens to equal the minimum value in Western Longitude (LONG_W in STATION).
+- c happens to equal the maximum value in Northern Latitude (LAT_N in STATION).
+- d happens to equal the maximum value in Western Longitude (LONG_W in STATION).
+Query the Manhattan Distance between points P1 and P2 and round it to a scale of 4 decimal places.
+
+   My Solution (MySQL):
+   
+         SELECT ROUND((MAX(LAT_N)-MIN(LAT_N)) + (MAX(LONG_W)-MIN(LONG_W)),4) AS Distance FROM STATION;
+
+#### Q36.Consider P1(a,c) and P2(b,d) to be two points on a 2D plane where (a,b) are the respective minimum and maximum values of Northern Latitude (LAT_N) and (c,d) are the respective minimum and maximum values of Western Longitude (LONG_W) in STATION.
+
+Query the Euclidean Distance between points P1 and P2 and format your answer to display 4 decimal digits.
+
+   My Solution (MySQL):
+   
+         SELECT ROUND(SQRT(POWER(MAX(LAT_N)-MIN(LAT_N),2) + POWER(MAX(LONG_W)-MIN(LONG_W),2)),4) FROM STATION;
+         
+#### Q37.A median is defined as a number separating the higher half of a data set from the lower half. Query the median of the Northern Latitudes (LAT_N) from STATION and round your answer to 4 decimal places.
+
+   My Solution (MySQL):
+   
+         SELECT CAST(ROUND(AVG(LAT_N),4) AS DECIMAL(10,4)) FROM (SELECT LAT_N, ROW_NUMBER() OVER(ORDER BY LAT_N) AS RowNumber, 
+         COUNT(*) OVER() AS TotalRows FROM STATION) AS temp 
+         WHERE RowNumber IN ((TotalRows + 1) / 2, (TotalRows + 2) / 2);
+         
 ### Advanced SELECT - 
 
 #### Q.Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
