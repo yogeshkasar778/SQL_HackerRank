@@ -308,6 +308,34 @@ Query the Euclidean Distance between points P1 and P2 and format your answer to 
          SELECT CAST(ROUND(AVG(LAT_N),4) AS DECIMAL(10,4)) FROM (SELECT LAT_N, ROW_NUMBER() OVER(ORDER BY LAT_N) AS RowNumber, 
          COUNT(*) OVER() AS TotalRows FROM STATION) AS temp 
          WHERE RowNumber IN ((TotalRows + 1) / 2, (TotalRows + 2) / 2);
+
+### Basic Join -
+
+#### Q38.Given the CITY and COUNTRY tables, query the sum of the populations of all cities where the CONTINENT is 'Asia'.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+The CITY and COUNTRY tables are described as follows:
+
+![1449729804-f21d187d0f-CITY (1)](https://user-images.githubusercontent.com/118357991/234034524-5c228af4-94b0-4197-9297-f015001028ea.jpg)
+
+![1449769013-e54ce90480-Country](https://user-images.githubusercontent.com/118357991/234034815-a9497b47-a5f2-47e6-8826-8d5f0e1d2e38.jpg)
+
+
+   My Solution (MySQL):
+   
+         SELECT SUM(CITY.POPULATION) FROM CITY
+         JOIN COUNTRY 
+         ON CITY.COUNTRYCODE = COUNTRY.CODE
+         WHERE CONTINENT = 'Asia';
+         
+#### Q37.A median is defined as a number separating the higher half of a data set from the lower half. Query the median of the Northern Latitudes (LAT_N) from STATION and round your answer to 4 decimal places.
+
+   My Solution (MySQL):
+   
+         SELECT CAST(ROUND(AVG(LAT_N),4) AS DECIMAL(10,4)) FROM (SELECT LAT_N, ROW_NUMBER() OVER(ORDER BY LAT_N) AS RowNumber, 
+         COUNT(*) OVER() AS TotalRows FROM STATION) AS temp 
+         WHERE RowNumber IN ((TotalRows + 1) / 2, (TotalRows + 2) / 2);
          
 ### Advanced SELECT - 
 
