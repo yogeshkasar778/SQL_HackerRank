@@ -305,9 +305,9 @@ Query the Euclidean Distance between points P1 and P2 and format your answer to 
 
    My Solution (MySQL):
    
-         SELECT CAST(ROUND(AVG(LAT_N),4) AS DECIMAL(10,4)) FROM (SELECT LAT_N, ROW_NUMBER() OVER(ORDER BY LAT_N) AS RowNumber, 
-         COUNT(*) OVER() AS TotalRows FROM STATION) AS temp 
-         WHERE RowNumber IN ((TotalRows + 1) / 2, (TotalRows + 2) / 2);
+        SELECT CAST(ROUND(AVG(LAT_N),4) AS DECIMAL(10,4)) FROM (SELECT LAT_N, ROW_NUMBER() OVER(ORDER BY LAT_N) AS RowNumber, 
+        COUNT(*) OVER() AS TotalRows FROM STATION) AS temp 
+        WHERE RowNumber IN ((TotalRows + 1) / 2, (TotalRows + 2) / 2);
 
 ### Basic Join -
 
@@ -329,14 +329,56 @@ The CITY and COUNTRY tables are described as follows:
          ON CITY.COUNTRYCODE = COUNTRY.CODE
          WHERE CONTINENT = 'Asia';
          
-#### Q37.A median is defined as a number separating the higher half of a data set from the lower half. Query the median of the Northern Latitudes (LAT_N) from STATION and round your answer to 4 decimal places.
+#### Q39.Given the CITY and COUNTRY tables, query the names of all cities where the CONTINENT is 'Africa'.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
 
    My Solution (MySQL):
    
-         SELECT CAST(ROUND(AVG(LAT_N),4) AS DECIMAL(10,4)) FROM (SELECT LAT_N, ROW_NUMBER() OVER(ORDER BY LAT_N) AS RowNumber, 
-         COUNT(*) OVER() AS TotalRows FROM STATION) AS temp 
-         WHERE RowNumber IN ((TotalRows + 1) / 2, (TotalRows + 2) / 2);
-         
+         SELECT CITY.NAME FROM CITY 
+         JOIN COUNTRY
+         ON CITY.COUNTRYCODE = COUNTRY.CODE
+         WHERE CONTINENT = 'Africa';
+        
+#### Q40.Given the CITY and COUNTRY tables, query the names of all the continents (COUNTRY.Continent) and their respective average city populations (CITY.Population) rounded down to the nearest integer.
+
+Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
+
+   My Solution (MySQL):
+   
+         SELECT COUNTRY.CONTINENT, FLOOR(AVG(CITY.POPULATION FROM COUNTRY
+         JOIN CITY
+         ON COUNTRY.CODE = CITY.COUJNTRYCODE
+         GROUP BY COUNTRY.CONTIENT;
+              
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 ### Advanced SELECT - 
 
 #### Q.Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. Output one of the following statements for each record in the table:
