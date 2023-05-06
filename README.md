@@ -350,15 +350,42 @@ Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
          JOIN CITY
          ON COUNTRY.CODE = CITY.COUJNTRYCODE
          GROUP BY COUNTRY.CONTIENT;
-              
+
+### Aggregations  -
+
+#### Q41.Query a count of the number of cities in CITY having a Population larger than 100000.
+
+   My Solution (MySQL):
+   
+         SELECT COUNT(*) AS NUMBER_OF_CITY FROM CITY
+         WHERE POPULATION > 100000;
+         
+#### Q42.Query the total population of all cities in CITY where District is California.
+
+   My Solution (MySQL):
+   
+         SELECT SUM(POPULATION) AS TOTAL_POPULATION FROM CITY
+         WHERE DISTRICT = 'California';        
         
+#### Q43.Query the average population of all cities in CITY where District is California.
+
+   My Solution (MySQL):
+   
+         SELECT AVG(POPULATION) AS AVG_POPULATION FROM CITY
+         WHERE DISTRICT = 'California';                
         
+#### Q44.Query the average population for all cities in CITY, rounded down to the nearest integer
+
+   My Solution (MySQL):
+   
+         SELECT ROUND(AVG(POPULATION)) FROM CITY;          
         
-        
-        
-        
-        
-        
+#### Q45.Query the sum of the populations for all Japanese cities in CITY. The COUNTRYCODE for Japan is JPN.
+
+   My Solution (MySQL):
+   
+         SELECT SUM(POPULATION) FROM CITY
+         WHERE COUNTRYCODE = 'JPN';                  
         
         
         
