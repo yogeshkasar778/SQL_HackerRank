@@ -387,7 +387,11 @@ Note: CITY.CountryCode and COUNTRY.Code are matching key columns.
          SELECT SUM(POPULATION) FROM CITY
          WHERE COUNTRYCODE = 'JPN';                  
         
-        
+#### Q46.Query the difference between the maximum and minimum populations in CITY..
+
+   My Solution (MySQL):
+   
+         SELECT MAX(POPULATION)-MIN(POPULATION) FROM CITY;                
         
         
         
